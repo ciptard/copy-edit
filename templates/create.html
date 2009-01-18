@@ -4,12 +4,15 @@
 <form action="/save" method="post">
   <div>
     <h4>Title</h4>
-    <input type="text" value="" name="title">
+    <input type="text" value="{{ post.title }}" name="title">
   </div>
   <div>
     <h4>Body (use <a href="http://daringfireball.net/projects/markdown/syntax" target="_blank">Markdown</a> syntax)</h4>
-    <textarea name="body" rows="10" cols="60"></textarea>
+    <textarea name="body" rows="10" cols="60">{{ post.body }}</textarea>
   </div>
+  {% if edit %} 
+  <input type="hidden" name="post_id" value="{{ post.key.id }}">
+  {% endif %}
   <div><input type="submit" value="Create post"></div>
 </form>
 {% endblock %}

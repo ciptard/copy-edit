@@ -26,6 +26,8 @@ def main():
             ('/', WelcomePage),
             ('/home', HomePage),
             (r'/post/(.*)/', ShowPost),
+            (r'/edit/(.*)/', EditPost),
+            (r'/delete/(.*)/', DeletePost),
             ('/create', CreatePost),
             ('/save', SavePost),
             ('/save_comment', SaveComment),

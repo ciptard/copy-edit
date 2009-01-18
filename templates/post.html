@@ -16,6 +16,9 @@
     <p> 
     {% ifnotequal post.author user %}
       Written by {{ post.author.nickname }} <br />
+    {% else %}
+    <a href="/edit/{{post.key.id}}/">Edit post</a>
+    | <a href="/delete/{{post.key.id}}/">Delete post</a> <br />
     {% endifnotequal %}
     Last updated: {{ post.formattedd_time}} 
     </p>

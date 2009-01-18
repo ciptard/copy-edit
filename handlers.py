@@ -72,7 +72,20 @@ class SavePost(BaseRequestHandler):
         title = self.request.get('title')
         body = db.Text(self.request.get('body'))
 
-        post = Post(title=title, body=body, author=user)
+        post_id = self.request.get('post_id')
+
+        if post_id:
+            post = Post.get_by_id(int(post_id))
+            if post.author != user:
+                self.generate('error.html', {
+                    'error_message': 'You don’t have permission to edit that post',
+                    'page_title': 'Error'})
+                return
+            post.title = title
+            post.body = body
+        else:
+            post = Post(title=title, body=body, author=user)
+        
         post.html = Markdown(post.body)
         post.put()
 
@@ -180,6 +193,38 @@ class WelcomePage(BaseRequestHandler):
             self.generate('welcome.html', {'page_title': 'Welcome'})
         else:
             self.redirect('/home')
+
+
+class EditPost(BaseRequestHandler):
+    """
+    Handler to show render a single post. Also shows the feedback form.
+    """
+    @login_required
+    def get(self, id):
+        user = users.GetCurrentUser()
+        post = Post.get_by_id(int(id))
+        if post.author == user:
+            self.generate('create.html', {'post': post, 'page_title': 'Edit post', 'edit': True, 'user': user})
+        else:
+            self.generate('error.html', {
+                'error_message': 'You don’t have permission to edit that post',
+                'page_title': 'Error'})
+
+class DeletePost(BaseRequestHandler):
+    """
+    Handler to delete a single post.
+    """
+    @login_required
+    def get(self, id):
+        user = users.GetCurrentUser()
+        post = Post.get_by_id(int(id))
+        if post.author == user:
+            post.delete()
+            self.redirect('/home')
+        else:
+            self.generate('error.html', {
+                'error_message': 'You don’t have permission to delete that post.',
+                'page_title': 'Error'})
 
 
 class ShowPost(BaseRequestHandler):
