@@ -85,8 +85,8 @@ class SavePost(BaseRequestHandler):
             post.body = body
         else:
             post = Post(title=title, body=body, author=user)
-        
-        post.html = Markdown(post.body)
+
+        post.html = Markdown(post.body.encode('utf-8')).decode('utf-8')
         post.put()
 
         self.redirect('/home')
