@@ -28,6 +28,7 @@ def main():
             (r'/post/(.*)/', ShowPost),
             ('/create', CreatePost),
             ('/save', SavePost),
+            ('/save_comment', SaveComment),
         ], debug=_DEBUG)
     CGIHandler().run(application)
 

@@ -11,6 +11,26 @@
   <div id="post-body">
     {{ post.html }}
   </div>
+
+  <div id="post-comments">
+    <h3>Review comments</h3>
+    {% for comment in post.review_comments %}
+      <div class="post-comment">
+        <strong>{{ comment.author.nickname|escape }} said:</strong>
+	<br />
+        {{ comment.body|escape }}
+      </div>
+    {% endfor %}
+  </div>
+
+  <div id="comments-form">
+    <h3>Add a comment</h3>
+    <form action="/save_comment" method="post">
+      <div><textarea name="body" rows="3" cols="60"></textarea></div>
+      <div><input type="submit" value="Add comment"></div>
+      <input type="hidden" name="post_id" value="{{ post.key.id }}" />
+    </form>
+  </div>
   
 </div>
 

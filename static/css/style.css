@@ -4,3 +4,4 @@
 
 #post { border-top: 1px solid #ccc; border-bottom: 1px solid #ccc; }
 .login { display: inline; float: right;}
+#post-comments { border-top: 1px solid #ccc; }

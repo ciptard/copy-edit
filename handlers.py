@@ -11,7 +11,7 @@ from google.appengine.ext import db
 
 from lib.pymarkdown import Markdown
 
-from models import Post
+from models import Post, ReviewComment
 
 class BaseRequestHandler(webapp.RequestHandler):
     """
@@ -59,7 +59,7 @@ class CreatePost(BaseRequestHandler):
         
 class SavePost(BaseRequestHandler):
     """
-    This Handler defines the create-post page of copy-editor.
+    This class handles the creation of a post.
     """
     def post(self):
         user = users.get_current_user()
@@ -72,6 +72,25 @@ class SavePost(BaseRequestHandler):
         post.put()
 
         self.redirect('/home')
+
+
+class SaveComment(BaseRequestHandler):
+    """
+    This class handles the creation of a review-comment.
+    """
+    def post(self):
+        user = users.get_current_user()
+        
+        body = db.Text(self.request.get('body'))
+        post_id = db.Text(self.request.get('post_id'))
+        
+        post = Post.get_by_id(int(post_id))
+
+        review_comment = ReviewComment(body=body, post=post, author=user)
+        review_comment.put()
+
+        self.redirect('/post/%s/' % post_id)
+
         
 class WelcomePage(BaseRequestHandler):
     """
@@ -83,6 +102,7 @@ class WelcomePage(BaseRequestHandler):
             self.generate('welcome.html', {'page_title': 'Welcome'})
         else:
             self.redirect('/home')
+
 
 class ShowPost(BaseRequestHandler):
     """

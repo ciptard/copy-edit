@@ -16,3 +16,15 @@ class Post(db.Model):
     # meta-fields
     author = db.UserProperty(required = True)
     updated = db.DateTimeProperty(auto_now_add = True)
+
+class ReviewComment(db.Model):
+    """
+    Models a review comment.
+    """
+    author = db.UserProperty(required = True)
+    
+    # No HTML is allowed for ReviewComments
+    body = db.TextProperty(required = True)
+    
+    published = db.DateTimeProperty(auto_now_add = True)
+    post = db.ReferenceProperty(Post, collection_name='review_comments')
