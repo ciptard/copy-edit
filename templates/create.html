@@ -2,8 +2,14 @@
 
 {% block body %}
 <form action="/save" method="post">
-  <div><input type="text" value="" name="title"></div>
-  <div><textarea name="body" rows="10" cols="60"></textarea></div>
+  <div>
+    <h4>Title</h4>
+    <input type="text" value="" name="title">
+  </div>
+  <div>
+    <h4>Body (use <a href="http://daringfireball.net/projects/markdown/syntax" target="_blank">Markdown</a> syntax)</h4>
+    <textarea name="body" rows="10" cols="60"></textarea>
+  </div>
   <div><input type="submit" value="Create post"></div>
 </form>
 {% endblock %}

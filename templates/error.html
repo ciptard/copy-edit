@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+
+{% block body %}
+<h2>Error</h2>
+
+<p>There was an error with your request. 
+  <blockquote>{{ error_message|escape }}</blockquote>
+</p>
+{% endblock %}

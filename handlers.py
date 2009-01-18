@@ -110,5 +110,11 @@ class ShowPost(BaseRequestHandler):
     """
     @login_required
     def get(self, id):
+        user = users.GetCurrentUser()
         post = Post.get_by_id(int(id))
-        self.generate('post.html', {'post': post, 'page_title': 'Post'})
+        if post.author == user:
+            self.generate('post.html', {'post': post, 'page_title': 'Post', 'user': user})
+        else:
+            self.generate('error.html', {
+                'error_message': 'You don’t have permission to view that post',
+                'page_title': 'Error'})

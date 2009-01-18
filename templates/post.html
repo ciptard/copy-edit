@@ -31,6 +31,18 @@
       <input type="hidden" name="post_id" value="{{ post.key.id }}" />
     </form>
   </div>
+
+  {% ifequal post.author user %}
+  <div id="invite-reviews">
+    <h3>Reviewers</h3>
+    <form action="/add_reviewer" method="post">
+      <div><input type="text" name="email_address" value="" /></div>
+      <div><input type="submit" value="Add comment"></div>
+      <input type="hidden" name="post_id" value="{{ post.key.id }}" />
+    </form>
+  </div>
+  {% endifequal %}
+
   
 </div>
 
