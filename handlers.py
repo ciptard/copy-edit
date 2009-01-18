@@ -44,7 +44,8 @@ class HomePage(BaseRequestHandler):
         user = users.GetCurrentUser()
         posts = db.GqlQuery("SELECT * FROM Post where author = :1", user)
         template_vars = {
-            'posts': posts
+            'posts': posts,
+            'page_title': 'Home'
             }
         self.generate('home.html', template_vars)
 
@@ -54,7 +55,7 @@ class CreatePost(BaseRequestHandler):
     """
     @login_required
     def get(self):
-        self.generate('create.html')
+        self.generate('create.html', {'page_title': 'Create Post'})
         
 class SavePost(BaseRequestHandler):
     """
@@ -79,7 +80,7 @@ class WelcomePage(BaseRequestHandler):
     def get(self):
         user = users.GetCurrentUser()
         if not user:
-            self.generate('welcome.html')
+            self.generate('welcome.html', {'page_title': 'Welcome'})
         else:
             self.redirect('/home')
 
@@ -90,4 +91,4 @@ class ShowPost(BaseRequestHandler):
     @login_required
     def get(self, id):
         post = Post.get_by_id(int(id))
-        self.generate('post.html', {'post': post})
+        self.generate('post.html', {'post': post, 'page_title': 'Post'})

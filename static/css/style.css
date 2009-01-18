@@ -1,1 +1,6 @@
 /* Additional styles */
+
+#header, #header * { background: #eee !important; font-family: helvetica, verdana, 'bitstream vera sans', sans-serif;}
+
+#post { border-top: 1px solid #ccc; border-bottom: 1px solid #ccc; }
+.login { display: inline; float: right;}

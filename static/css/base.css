@@ -2,7 +2,7 @@
 @charset 'utf-8';
 
 @media all {
-* { font-family: palatino, georgia, 'bitstream vera serif', serif; font-weight: normal; background: #fff; color: #000; }
+* { font-family: palatino, georgia, 'bitstream vera serif', serif; font-weight: normal; color: #000; }
 a { border-bottom: 1pt solid #999; text-decoration: none; }
 address, cite, var, abbr { font-style: normal; }
 blockquote { margin-left: 2em; padding: 0 .5em; border-left: 1pt solid #999;}

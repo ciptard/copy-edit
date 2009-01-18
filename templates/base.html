@@ -2,7 +2,14 @@
 <html>
   <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
-    <title>{% block title %}{{ application_name }}{% endblock %}</title>
+    <title>
+      {% block title %}
+        {% if page_title %}
+          {{ page_title}} | 
+        {% endif %}
+        {{ application_name }}
+      {% endblock %}
+    </title>
     <link href="/static/css/base.css" rel="stylesheet" type="text/css"/>
     <link href="/static/css/style.css" rel="stylesheet" type="text/css"/>
     {% block head %}{% endblock %}
@@ -18,6 +25,11 @@
             <span class="item"><a href="{{ login_url|escape }}">Login</a></span>
           {% endif %}
         </div>
+
+        <a href="/">{{ application_name }}</a>
+        {% if page_title %}
+          > {{ page_title}}
+        {% endif %}
       </div>
     {% endblock %}
     <div id="body">{% block body %}{% endblock %}</div>
