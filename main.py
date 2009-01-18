@@ -29,6 +29,7 @@ def main():
             ('/create', CreatePost),
             ('/save', SavePost),
             ('/save_comment', SaveComment),
+            ('/add_reviewer', AddReviewer),
         ], debug=_DEBUG)
     CGIHandler().run(application)
 

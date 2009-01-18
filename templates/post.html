@@ -35,15 +35,29 @@
   {% ifequal post.author user %}
   <div id="invite-reviews">
     <h3>Reviewers</h3>
+    <ul>
+    {% for reviewer in post.reviewers %}
+      <li>{{reviewer}}</li>
+    {% endfor %}
+    </ul>
     <form action="/add_reviewer" method="post">
       <div><input type="text" name="email_address" value="" /></div>
-      <div><input type="submit" value="Add comment"></div>
+      <div><input type="submit" value="Add reviewer"></div>
       <input type="hidden" name="post_id" value="{{ post.key.id }}" />
     </form>
   </div>
   {% endifequal %}
-
   
 </div>
 
+{% endblock %}
+
+{% block footer %}
+<!--<script type="text/javascript" src="http://www.google.com/jsapi"></script>
+<script type="text/javascript" src="/static/js/post.js"></script>
+<script type="text/javascript">
+google.load("gdata", "1.x");
+google.setOnLoadCallback(initFunc);
+</script>
+-->
 {% endblock %}

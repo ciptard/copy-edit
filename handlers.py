@@ -91,6 +91,26 @@ class SaveComment(BaseRequestHandler):
 
         self.redirect('/post/%s/' % post_id)
 
+
+class AddReviewer(BaseRequestHandler):
+    """
+    This class handles adding a reviewer to an post.
+    """
+    def post(self):
+        user = users.get_current_user()
+        
+        post_id = db.Text(self.request.get('post_id'))
+        email_address = self.request.get('email_address')
+        
+        post = Post.get_by_id(int(post_id))
+        if post.reviewers:
+            post.reviewers.append(email_address)
+        else:
+            post.reviewers = [email_address]
+
+        post.put()
+
+        self.redirect('/post/%s/' % post_id)
         
 class WelcomePage(BaseRequestHandler):
     """
@@ -112,7 +132,7 @@ class ShowPost(BaseRequestHandler):
     def get(self, id):
         user = users.GetCurrentUser()
         post = Post.get_by_id(int(id))
-        if post.author == user:
+        if post.author == user or user.email() in post.reviewers:
             self.generate('post.html', {'post': post, 'page_title': 'Post', 'user': user})
         else:
             self.generate('error.html', {

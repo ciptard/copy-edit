@@ -15,6 +15,7 @@ class Post(db.Model):
 
     # meta-fields
     author = db.UserProperty(required = True)
+    reviewers = db.StringListProperty()
     updated = db.DateTimeProperty(auto_now_add = True)
 
 class ReviewComment(db.Model):
