@@ -12,6 +12,15 @@
     {{ post.html }}
   </div>
 
+  <div id="post-footer">
+    <p> 
+    {% ifnotequal post.author user %}
+      Written by {{ post.author.nickname }} <br />
+    {% endifnotequal %}
+    Last updated: {{ post.formattedd_time}} 
+    </p>
+  </div>
+
   <div id="post-comments">
     <h3>Review comments</h3>
     {% for comment in post.review_comments %}
@@ -53,11 +62,4 @@
 {% endblock %}
 
 {% block footer %}
-<!--<script type="text/javascript" src="http://www.google.com/jsapi"></script>
-<script type="text/javascript" src="/static/js/post.js"></script>
-<script type="text/javascript">
-google.load("gdata", "1.x");
-google.setOnLoadCallback(initFunc);
-</script>
--->
 {% endblock %}

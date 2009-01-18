@@ -12,6 +12,7 @@ from google.appengine.ext import db
 from lib.pymarkdown import Markdown
 
 from models import Post, ReviewComment
+import models
 
 class BaseRequestHandler(webapp.RequestHandler):
     """
@@ -42,9 +43,11 @@ class HomePage(BaseRequestHandler):
     @login_required
     def get(self):
         user = users.GetCurrentUser()
-        posts = db.GqlQuery("SELECT * FROM Post where author = :1", user)
+        my_posts = db.GqlQuery("SELECT * FROM Post where author = :1", user)
+        posts_to_review = models.posts_to_review(user)
         template_vars = {
-            'posts': posts,
+            'posts': my_posts,
+            'to_review': posts_to_review,
             'page_title': 'Home'
             }
         self.generate('home.html', template_vars)
@@ -103,10 +106,11 @@ class AddReviewer(BaseRequestHandler):
         email_address = self.request.get('email_address')
         
         post = Post.get_by_id(int(post_id))
+        reviewer = users.User(email_address)
         if post.reviewers:
-            post.reviewers.append(email_address)
+            post.reviewers.append(reviewer)
         else:
-            post.reviewers = [email_address]
+            post.reviewers = [reviewer]
 
         post.put()
 
@@ -132,7 +136,7 @@ class ShowPost(BaseRequestHandler):
     def get(self, id):
         user = users.GetCurrentUser()
         post = Post.get_by_id(int(id))
-        if post.author == user or user.email() in post.reviewers:
+        if post.author == user or user in post.reviewers:
             self.generate('post.html', {'post': post, 'page_title': 'Post', 'user': user})
         else:
             self.generate('error.html', {

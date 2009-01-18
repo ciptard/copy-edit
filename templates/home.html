@@ -9,5 +9,13 @@
 {% endfor %}
 </ul>
 
+<h2>Pending review</h2>
+<ul>
+
+{% for post in to_review %}
+  <li><a href="/post/{{ post.key.id }}/">{{ post.title|escape }}</a></li>
+{% endfor %}
+</ul>
+
 {% endblock %}
 

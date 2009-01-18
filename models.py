@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from google.appengine.ext import db
+from google.appengine.api import users
 
 class Post(db.Model):
     """
@@ -15,8 +16,12 @@ class Post(db.Model):
 
     # meta-fields
     author = db.UserProperty(required = True)
-    reviewers = db.StringListProperty()
+    reviewers = db.ListProperty(users.User)
     updated = db.DateTimeProperty(auto_now_add = True)
+
+    def formattedd_time(self):
+        return self.updated.strftime("%Y-%m-%d")
+
 
 class ReviewComment(db.Model):
     """
@@ -29,3 +34,12 @@ class ReviewComment(db.Model):
     
     published = db.DateTimeProperty(auto_now_add = True)
     post = db.ReferenceProperty(Post, collection_name='review_comments')
+
+
+def posts_to_review(user):
+    """
+    Return a list of posts that are pending review by the input user.
+    This method seems to be horribly inefficient, but it works for now.
+    """
+    other_posts = db.GqlQuery("SELECT * from Post where author != :1", user)
+    return [post for post in other_posts if user in post.reviewers]
