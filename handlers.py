@@ -8,11 +8,13 @@ from google.appengine.api import users
 from google.appengine.ext.webapp import template
 from google.appengine.ext.webapp.util import login_required
 from google.appengine.ext import db
+from google.appengine.api import mail
 
 from lib.pymarkdown import Markdown
 
 from models import Post, ReviewComment
 import models
+import util
 
 class BaseRequestHandler(webapp.RequestHandler):
     """
@@ -92,7 +94,33 @@ class SaveComment(BaseRequestHandler):
         review_comment = ReviewComment(body=body, post=post, author=user)
         review_comment.put()
 
+        self.send_email(user, post.author, post)
+
         self.redirect('/post/%s/' % post_id)
+
+    def send_email(self, from_user, to_user, post):
+        subject = "%s has reviewed one of your draft blog posts." % from_user.nickname()
+        body = """Hi %s,
+
+Your friend %s has written a review comment for your draft blog post titled "%s".
+
+Please visit this link to read it: %s
+
+You should be able to login to that page using your Google ID.
+
+Thanks
+copy-editor
+
+--
+This email is sent by copy-editor [http://copy-editor.appspot.com/], a tool to help manage
+your draft blog posts, and get them reviewed by your friends. """ % (
+            to_user.nickname(),
+            from_user.nickname(),
+            post.title,
+            post.get_url(),
+            )
+        mail.send_mail(from_user.email(), to_user.email(), subject, body)
+        
 
 
 class AddReviewer(BaseRequestHandler):
@@ -114,7 +142,33 @@ class AddReviewer(BaseRequestHandler):
 
         post.put()
 
+        self.send_email(user, reviewer, post)
+
         self.redirect('/post/%s/' % post_id)
+
+    def send_email(self, from_user, to_user, post):
+        subject = "Please review my draft post"
+        body = """Hi %s,
+
+I am writing a new blog post, titled "%s", and would like you to review it if possible.
+
+Please visit this link to read it: %s
+
+You should be able to login to that page using your Google ID.
+
+Thanks
+%s
+
+--
+This email is sent by copy-editor [http://copy-editor.appspot.com/], a tool to help manage
+your draft blog posts, and get them reviewed by your friends. """ % (
+            to_user.nickname(),
+            post.title,
+            post.get_url(),
+            from_user.nickname()
+            )
+        mail.send_mail(from_user.email(), to_user.email(), subject, body)
+
         
 class WelcomePage(BaseRequestHandler):
     """

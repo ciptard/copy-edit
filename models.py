@@ -3,6 +3,8 @@
 from google.appengine.ext import db
 from google.appengine.api import users
 
+import util
+
 class Post(db.Model):
     """
     This class models a single blog post. Pretty basic stuff.
@@ -22,6 +24,8 @@ class Post(db.Model):
     def formattedd_time(self):
         return self.updated.strftime("%Y-%m-%d")
 
+    def get_url(self):
+        return util.get_server_url() + 'post/' + str(self.key().id()) + '/'
 
 class ReviewComment(db.Model):
     """
