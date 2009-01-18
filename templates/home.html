@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block body %}
+<h1>copy-editor | Your posts</h1>
+
+<ul>
+{% for post in posts %}
+  <li><a href="/post/{{ post.key.id }}/">{{ post.title|escape }}</a></li>
+{% endfor %}
+</ul>
+
+<a href="/create">Create a new post?</a>
+
+{% endblock %}

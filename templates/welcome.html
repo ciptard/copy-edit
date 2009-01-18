@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block body %}
+<h1>copy-editor</h1>
+<p>Welcome to copy-editor.</p>
+
+<p>copy-editor is an application that helps you <em>write</em>. I’m not sure yet
+the direction this will go, or even if I’ll finish it, but it’s bound to
+be an interesting ride. </p>
+
+<p>For now, I want the application to: </p>
+
+<ul>
+<li>Provide a place to store my draft posts.</li>
+<li>Allow me to nominate ‘editors’ for each post, and let these editors
+take a peek at my writing, and hopefully give me their
+thoughts/suggestions/etc. </li>
+</ul>
+
+<p>Some thoughts for the future: </p>
+
+<ul>
+<li>Keep track of post revisions.</li>
+<li>Integrate with my blog, and do a one-click publish.</li>
+<li>Use those cool ‘line comments’ similar to the <a href="http://www.djangobook.com/">Django Book</a>.</li>
+</ul>
+
+<p>You can <a href="{{ login_url|escape }}">login</a> to copy-editor
+  using your Google Account. What are you waiting for?</p>
+
+<p>— Ankit Solanki <a href="http://simulacra.in">http://simulacra.in</a></p>
+
+{% endblock %}

@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block body %}
+<h1>copy-editor | Post</h1>
+
+<div id="post">
+
+  <div id="post-header">
+    <h2>{{ post.title|escape}}</h2>
+  </div>
+
+  <div id="post-body">
+    {{ post.html }}
+  </div>
+  
+</div>
+
+{% endblock %}
