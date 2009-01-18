@@ -8,11 +8,16 @@ copy-editor is an application that helps you *write*. I’m not sure yet
 the direction this will go, or even if I’ll finish it, but it’s bound to
 be an interesting ride. 
 
+It is built on the Google AppEngine, and is running live at
+<http://copy-editor.appspot.com/>. You may want to give it a try, but
+keep in mind that it’s very much in development for now, and you may
+lose any data you save.
+
 For now, I want the application to: 
 
  - Provide a place to store my draft posts.
  - Allow me to nominate ‘editors’ for each post, and let these editors
-   take a peek at my writing, and hopefully give me their
+   take a peek at my writing, and hopefully give me their 
    thoughts/suggestions/etc. 
 
 Some thoughts for the future: 
